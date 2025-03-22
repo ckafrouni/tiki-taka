@@ -1,61 +1,50 @@
 "use server";
 
-import { Anthropic } from "@anthropic-ai/sdk";
-import { Message } from "~/types/message";
-import { CHAT_MODEL_CONFIG } from "~/config/chat-config";
+import { Message } from "ai";
+import { anthropic } from "@ai-sdk/anthropic";
+import { generateText } from "ai";
+import { Expert } from "~/config/chat-config";
 
-// Initialize the Anthropic client
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY || "",
-});
+const CHAT_MODEL_CONFIG = {
+  model: anthropic("claude-3-5-sonnet-latest"),
+  maxTokens: 1024,
+};
 
 export async function getExpertOutput(
   messages: Message[],
-  systemPrompt: string
+  expert: Expert
 ): Promise<string> {
-  if (!process.env.ANTHROPIC_API_KEY) {
-    throw new Error("ANTHROPIC_API_KEY is not set");
+  console.log("messages:", JSON.stringify(messages, null, 2));
+
+  // Ensure we have messages to process
+  if (!messages || messages.length === 0) {
+    console.error("No messages provided to getExpertOutput");
+    return "No messages provided to generate a response.";
   }
 
   try {
-    // Convert the messages to Anthropic's format
-    const formattedMessages = messages.map((message) => ({
-      role:
-        message.role === "user" ? ("user" as const) : ("assistant" as const),
-      content: message.content,
-    }));
+    // Make sure ANTHROPIC_API_KEY is set in your environment variables
+    if (!process.env.ANTHROPIC_API_KEY) {
+      throw new Error("ANTHROPIC_API_KEY is not set in environment variables");
+    }
 
-    console.log(
-      "Formatted messages:",
-      JSON.stringify(formattedMessages, null, 2)
-    );
-    console.log("System prompt:", systemPrompt);
-
-    // Create a non-streaming response
-    const response = await anthropic.messages.create({
+    const response = await generateText({
       model: CHAT_MODEL_CONFIG.model,
-      messages: formattedMessages,
-      max_tokens: CHAT_MODEL_CONFIG.maxTokens,
-      stream: false,
-      system: systemPrompt,
+      messages,
+      maxTokens: CHAT_MODEL_CONFIG.maxTokens,
+      system: expert.prompt,
     });
 
     console.log("API response:", JSON.stringify(response, null, 2));
-
-    // Safely access the content
-    if (
-      response.content &&
-      response.content.length > 0 &&
-      response.content[0] &&
-      response.content[0].type === "text"
-    ) {
-      return response.content[0].text;
-    }
-
-    // Fallback if the response structure is different
-    return "I couldn't generate a proper response at this time.";
+    return response.text;
   } catch (error) {
     console.error("Error calling Anthropic API:", error);
+    
+    // More detailed error message
+    if (error instanceof Error) {
+      return `Error: ${error.message}`;
+    }
+    
     return "There was an error generating a response. Please try again.";
   }
 }

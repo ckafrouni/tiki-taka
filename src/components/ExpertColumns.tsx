@@ -1,37 +1,26 @@
 "use client";
 
-import { useExpertsStore } from "~/stores/experts-store";
 import { useChatStore } from "~/stores/chat-store";
 import { Expert } from "~/config/chat-config";
-import { Message } from "~/types/message";
 
 interface ExpertResponseProps {
   expert: Expert;
-  index: number;
   latestUserMessage: string | null;
 }
 
-const ExpertResponse = ({
-  expert,
-  index,
-  latestUserMessage,
-}: ExpertResponseProps) => {
-  const { displayedMessages } = useChatStore();
+const ExpertResponse = ({ expert, latestUserMessage }: ExpertResponseProps) => {
+  const { messages } = useChatStore();
 
-  // Find the latest response from this expert
-  const expertResponses = displayedMessages.filter(
-    (msg) => msg.role === "assistant" && msg.expertIndex === index
-  ) as Message[];
-
+  // Find the latest response from this expert which has role "assistant" and expertID
   const latestResponse =
-    expertResponses.length > 0
-      ? expertResponses[expertResponses.length - 1].content
-      : "";
+    messages.find(
+      (msg) => msg.role === "assistant" && msg.expertID === expert.id
+    )?.content || "";
 
   return (
     <div className="flex flex-col h-full border rounded-lg p-4 bg-white shadow-sm">
       <div className="font-bold text-lg mb-2 pb-2 border-b">
-        {expert.name || `Expert ${index + 1}`}
+        {expert.name || `Expert ${expert.id}`}
       </div>
 
       {latestUserMessage && (
@@ -48,23 +37,18 @@ const ExpertResponse = ({
 };
 
 export function ExpertColumns() {
-  const { experts } = useExpertsStore();
-  const { displayedMessages } = useChatStore();
+  const { messages, experts } = useChatStore();
 
-  // Find the latest user message
-  const userMessages = displayedMessages.filter((msg) => msg.role === "user");
+  // Find the latest user message which is the latest message with role "user" in messages
   const latestUserMessage =
-    userMessages.length > 0
-      ? userMessages[userMessages.length - 1].content
-      : null;
+    messages.find((msg) => msg.role === "user")?.content || null;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 flex-1 overflow-hidden">
-      {experts.map((expert, index) => (
+      {experts.map((expert) => (
         <ExpertResponse
-          key={index}
+          key={expert.id}
           expert={expert}
-          index={index}
           latestUserMessage={latestUserMessage}
         />
       ))}

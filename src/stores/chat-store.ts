@@ -1,48 +1,78 @@
 import { create } from "zustand";
-import { Message } from "~/types/message";
+import { Expert } from "~/config/chat-config";
+import { Message } from "ai";
+
+export interface UserMessage {
+  role: "user";
+  content: string;
+}
+
+export interface ExpertMessage {
+  role: "assistant";
+  expertID: number;
+  content: string;
+}
 
 interface ChatState {
-  messages: Message[];
-  displayedMessages: Message[];
+  messages: (UserMessage | ExpertMessage)[];
+  formattedMessagesForAISDK: Message[];
   isLoading: boolean;
   input: string;
-  systemPrompt: string;
+  experts: Expert[];
 
-  // Actions
   actions: {
-    setMessages: (messages: Message[]) => void;
-    addMessage: (message: Message) => void;
+    addUserMessage: (content: string) => void;
+    addExpertMessage: (expert: Expert, content: string) => void;
     setInput: (input: string) => void;
     setIsLoading: (isLoading: boolean) => void;
-    setSystemPrompt: (systemPrompt: string) => void;
-    clearMessages: () => void;
-    clearDisplayedMessages: () => void;
-    addDisplayedMessage: (message: Message) => void;
+    setExperts: (experts: Expert[]) => void;
   };
 }
 
 export const useChatStore = create<ChatState>((set) => ({
   messages: [],
-  displayedMessages: [],
+  formattedMessagesForAISDK: [],
   isLoading: false,
   input: "",
-  systemPrompt: "",
+  experts: [],
 
-  // Actions
   actions: {
-    setMessages: (messages) => set({ messages }),
-    addMessage: (message) =>
+    addUserMessage: (content: string) =>
       set((state) => ({
-        messages: [...state.messages, message],
+        messages: [
+          ...state.messages,
+          { role: "user", content } satisfies UserMessage,
+        ],
+        formattedMessagesForAISDK: [
+          ...state.formattedMessagesForAISDK,
+          {
+            id: crypto.randomUUID(),
+            role: "user",
+            content,
+          } satisfies Message,
+        ],
+      })),
+    addExpertMessage: (expert: Expert, content: string) =>
+      set((state) => ({
+        messages: [
+          ...state.messages,
+          {
+            role: "assistant",
+            expertID: expert.id,
+            content,
+          } satisfies ExpertMessage,
+        ],
+        formattedMessagesForAISDK: [
+          ...state.formattedMessagesForAISDK,
+          {
+            id: crypto.randomUUID(),
+            role: "assistant",
+            content,
+          } satisfies Message,
+        ],
       })),
     setInput: (input) => set({ input }),
     setIsLoading: (isLoading) => set({ isLoading }),
-    setSystemPrompt: (systemPrompt) => set({ systemPrompt }),
-    clearMessages: () => set({ messages: [] }),
-    clearDisplayedMessages: () => set({ displayedMessages: [] }),
-    addDisplayedMessage: (message) =>
-      set((state) => ({
-        displayedMessages: [...state.displayedMessages, message],
-      })),
+    setExperts: (experts: Expert[]) => set({ experts }),
   },
 }));
