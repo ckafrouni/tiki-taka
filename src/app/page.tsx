@@ -12,39 +12,36 @@ export default function Home() {
   const [task_prompt, setTaskPrompt] = useState("");
   const { actions } = useExpertsStore();
 
-  useEffect(() => {
-    setTaskPrompt("We want to brainstorm about new ways to brainstorm");
-    setContext(`
-      # Scratchpad
-      
-      We want to brainstorm about new ways to brainstorm
+  // const task_name = "brainstorming";
+  // const task_name = "politicalDiscourse"
+  const task_name = "ethicalMoralDiscourse"
+  const initial_scratchpad_text = "how to improve womans rights";
 
-      ## Already Discussed
-      
-      - Listening to kids
-      `);
+  useEffect(() => {
+    setTaskPrompt(cognitiveDiversity[task_name]["task_prompt"]);
+    setContext(initial_scratchpad_text);
     actions.setExperts([
       {
-        name: "Divergent Thinker: Dave",
+        name: cognitiveDiversity[task_name]["experts"][0]["name"],
         prompt: getExpertPrompt({
           task_prompt,
-          expert_prompt: cognitiveDiversity["brainstorming"][0],
+          expert_prompt: cognitiveDiversity[task_name]["experts"][0]["cognition"],
           context,
         }),
       },
       {
-        name: "Practical Implementer: Jane",
+        name: cognitiveDiversity[task_name]["experts"][1]["name"],
         prompt: getExpertPrompt({
           task_prompt,
-          expert_prompt: cognitiveDiversity["brainstorming"][1],
+          expert_prompt: cognitiveDiversity[task_name]["experts"][1]["cognition"],
           context,
         }),
       },
       {
-        name: "Critical Evaluator: Mark",
+        name: cognitiveDiversity[task_name]["experts"][2]["name"],
         prompt: getExpertPrompt({
           task_prompt,
-          expert_prompt: cognitiveDiversity["brainstorming"][2],
+          expert_prompt: cognitiveDiversity[task_name]["experts"][2]["cognition"],
           context,
         }),
       },
