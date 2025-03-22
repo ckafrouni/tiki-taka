@@ -1,0 +1,25 @@
+{
+  "cognitiveDiversity": {
+    "brainstorming": [
+      "Divergent Abstract Risk-Tolerant First-Principles Optimistic User-Centered Long-Term",
+      "Convergent Concrete Risk-Averse Analogical Pessimistic Technology-Centered Short-Term",
+      "Divergent Concrete Risk-Tolerant Analogical Optimistic User-Centered Short-Term",
+      "Convergent Abstract Risk-Averse First-Principles Pessimistic Technology-Centered Long-Term",
+      "Divergent Abstract Risk-Averse First-Principles Optimistic Technology-Centered Short-Term"
+    ],
+    "politicalDiscourse": [
+      "Individualist Progressive Decentralized Pragmatic Liberty-Focused Globalist Economic-Centric Procedural Incrementalist Grassroots",
+      "Collectivist Traditionalist Centralized Ideological Security-Focused Nationalist Social-Centric Outcome-Oriented Revolutionary Institutional",
+      "Individualist Traditionalist Decentralized Ideological Security-Focused Nationalist Economic-Centric Procedural Incrementalist Institutional",
+      "Collectivist Progressive Centralized Pragmatic Liberty-Focused Globalist Social-Centric Outcome-Oriented Revolutionary Grassroots",
+      "Individualist Progressive Centralized Pragmatic Security-Focused Globalist Economic-Centric Outcome-Oriented Incrementalist Institutional"
+    ],
+    "ethicalMoralDiscourse": [
+      "Consequentialist Universalist Individual Rights Virtue-Based Care-Oriented Social Contract Future-Focused Human-Centered Secular Harm-Focused",
+      "Deontological Relativist Collective Good Rule-Based Justice-Oriented Natural Law Present-Focused Biocentric Faith-Based Dignity-Focused",
+      "Consequentialist Relativist Individual Rights Rule-Based Justice-Oriented Social Contract Present-Focused Human-Centered Secular Dignity-Focused",
+      "Deontological Universalist Collective Good Virtue-Based Care-Oriented Natural Law Future-Focused Biocentric Faith-Based Harm-Focused",
+      "Consequentialist Universalist Collective Good Rule-Based Care-Oriented Social Contract Future-Focused Biocentric Secular Harm-Focused"
+    ]
+  }
+}
