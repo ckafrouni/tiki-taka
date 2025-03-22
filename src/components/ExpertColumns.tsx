@@ -13,9 +13,10 @@ const ExpertResponse = ({ expert, latestUserMessage }: ExpertResponseProps) => {
 
   // Find the latest response from this expert which has role "assistant" and expertID
   const latestResponse =
-    messages.find(
-      (msg) => msg.role === "assistant" && msg.expertID === expert.id
-    )?.content || "";
+    messages
+      .reverse()
+      .find((msg) => msg.role === "assistant" && msg.expertID === expert.id)
+      ?.content || "";
 
   return (
     <div className="flex flex-col h-full border rounded-lg p-4 bg-white shadow-sm">
@@ -38,10 +39,11 @@ const ExpertResponse = ({ expert, latestUserMessage }: ExpertResponseProps) => {
 
 export function ExpertColumns() {
   const { messages, experts } = useChatStore();
+  console.log(`RENDERING ExpertColumns ${messages.length}`);
 
   // Find the latest user message which is the latest message with role "user" in messages
   const latestUserMessage =
-    messages.find((msg) => msg.role === "user")?.content || null;
+    messages.reverse().find((msg) => msg.role === "user")?.content || null;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 flex-1 overflow-hidden">

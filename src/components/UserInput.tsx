@@ -6,16 +6,12 @@ import { useMutation } from "@tanstack/react-query";
 import { getExpertOutput } from "~/actions/getExpertOutput";
 
 export default function UserInput() {
-  const { input, isLoading, actions, formattedMessagesForAISDK, experts } =
-    useChatStore();
+  const { input, isLoading, actions, experts } = useChatStore();
 
   const expertMutation = useMutation({
     mutationFn: async (userInput: string) => {
       actions.addUserMessage(userInput);
-      console.log(
-        "messages:",
-        JSON.stringify(formattedMessagesForAISDK, null, 2)
-      );
+      const { formattedMessagesForAISDK } = useChatStore.getState();
 
       for (let i = 0; i < experts.length; i++) {
         const expert = experts[i];

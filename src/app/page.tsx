@@ -15,44 +15,52 @@ export default function Home() {
   const task_name = "ethicalMoralDiscourse";
   const initial_scratchpad_text = "how to improve womans rights";
 
+  // First effect to set up the initial values
   useEffect(() => {
     setTaskPrompt(cognitiveDiversity[task_name]["task_prompt"]);
     setContext(initial_scratchpad_text);
-    actions.setExperts([
-      {
-        id: 1,
-        name: cognitiveDiversity[task_name]["experts"][0]["name"],
-        prompt: getExpertPrompt({
-          task_prompt,
-          expert_prompt:
-            cognitiveDiversity[task_name]["experts"][0]["cognition"],
-          context,
+  }, []);
+
+  // Second effect to set up experts AFTER task_prompt and context are set
+  useEffect(() => {
+    // Only set experts if both task_prompt and context are properly initialized
+    if (task_prompt && context) {
+      actions.setExperts([
+        {
+          id: 1,
           name: cognitiveDiversity[task_name]["experts"][0]["name"],
-        }),
-      },
-      {
-        id: 2,
-        name: cognitiveDiversity[task_name]["experts"][1]["name"],
-        prompt: getExpertPrompt({
-          task_prompt,
-          expert_prompt:
-            cognitiveDiversity[task_name]["experts"][1]["cognition"],
-          context,
+          prompt: getExpertPrompt({
+            task_prompt,
+            expert_prompt:
+              cognitiveDiversity[task_name]["experts"][0]["cognition"],
+            context,
+            name: cognitiveDiversity[task_name]["experts"][0]["name"],
+          }),
+        },
+        {
+          id: 2,
           name: cognitiveDiversity[task_name]["experts"][1]["name"],
-        }),
-      },
-      {
-        id: 3,
-        name: cognitiveDiversity[task_name]["experts"][2]["name"],
-        prompt: getExpertPrompt({
-          task_prompt,
-          expert_prompt:
-            cognitiveDiversity[task_name]["experts"][2]["cognition"],
-          context,
+          prompt: getExpertPrompt({
+            task_prompt,
+            expert_prompt:
+              cognitiveDiversity[task_name]["experts"][1]["cognition"],
+            context,
+            name: cognitiveDiversity[task_name]["experts"][1]["name"],
+          }),
+        },
+        {
+          id: 3,
           name: cognitiveDiversity[task_name]["experts"][2]["name"],
-        }),
-      },
-    ]);
+          prompt: getExpertPrompt({
+            task_prompt,
+            expert_prompt:
+              cognitiveDiversity[task_name]["experts"][2]["cognition"],
+            context,
+            name: cognitiveDiversity[task_name]["experts"][2]["name"],
+          }),
+        },
+      ]);
+    }
   }, [task_prompt, context, actions]);
 
   return (

@@ -14,8 +14,6 @@ export async function getExpertOutput(
   messages: Message[],
   expert: Expert
 ): Promise<string> {
-  console.log("messages:", JSON.stringify(messages, null, 2));
-
   // Ensure we have messages to process
   if (!messages || messages.length === 0) {
     console.error("No messages provided to getExpertOutput");
@@ -35,16 +33,15 @@ export async function getExpertOutput(
       system: expert.prompt,
     });
 
-    console.log("API response:", JSON.stringify(response, null, 2));
     return response.text;
   } catch (error) {
     console.error("Error calling Anthropic API:", error);
-    
+
     // More detailed error message
     if (error instanceof Error) {
       return `Error: ${error.message}`;
     }
-    
+
     return "There was an error generating a response. Please try again.";
   }
 }
