@@ -25,30 +25,27 @@ export default function Home() {
       `);
     actions.setExperts([
       {
-        role: "Divergent Thinker",
+        name: "Divergent Thinker: Dave",
         prompt: getExpertPrompt({
           task_prompt,
           expert_prompt: cognitiveDiversity["brainstorming"][0],
           context,
-          role: "Divergent Thinker",
         }),
       },
       {
-        role: "Practical Implementer",
+        name: "Practical Implementer: Jane",
         prompt: getExpertPrompt({
           task_prompt,
           expert_prompt: cognitiveDiversity["brainstorming"][1],
           context,
-          role: "Practical Implementer",
         }),
       },
       {
-        role: "Critical Evaluator",
+        name: "Critical Evaluator: Mark",
         prompt: getExpertPrompt({
           task_prompt,
           expert_prompt: cognitiveDiversity["brainstorming"][2],
           context,
-          role: "Critical Evaluator",
         }),
       },
     ]);

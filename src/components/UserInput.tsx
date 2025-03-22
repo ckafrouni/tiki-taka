@@ -23,10 +23,10 @@ export default function UserInput() {
 
       // Add the user message to the store
       actions.addMessage(userMessage);
-      
+
       // Clear displayed messages when a new question is asked
       actions.clearDisplayedMessages();
-      
+
       // Add the user message to displayed messages
       actions.addDisplayedMessage(userMessage);
 
@@ -44,7 +44,7 @@ export default function UserInput() {
             contextSummary = "Previous experts have said:\n\n";
             expertResponses.forEach((resp, idx) => {
               contextSummary += `${
-                experts[resp.expertIndex || 0].role ||
+                experts[resp.expertIndex || 0].name ||
                 `Expert ${resp.expertIndex || 0 + 1}`
               }: ${resp.content.substring(0, 300)}${
                 resp.content.length > 300 ? "..." : ""
@@ -81,7 +81,7 @@ export default function UserInput() {
 
           // Also add it to the store immediately so it's visible in the UI
           actions.addMessage(expertMessage);
-          
+
           // Add to displayed messages
           actions.addDisplayedMessage(expertMessage);
         } catch (error) {
@@ -92,14 +92,14 @@ export default function UserInput() {
             id: crypto.randomUUID(),
             role: "assistant",
             content: `Error: Could not generate a response for ${
-              expert.role || `Expert ${i + 1}`
+              expert.name || `Expert ${i + 1}`
             }.`,
             expertIndex: i,
           };
 
           expertResponses.push(errorMessage);
           actions.addMessage(errorMessage);
-          
+
           // Add error message to displayed messages
           actions.addDisplayedMessage(errorMessage);
         }
@@ -118,7 +118,7 @@ export default function UserInput() {
         role: "assistant",
         content: "Sorry, there was an error processing your request.",
       } as Message;
-      
+
       actions.addMessage(errorMessage);
       actions.addDisplayedMessage(errorMessage);
     },

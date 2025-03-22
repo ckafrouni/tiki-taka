@@ -1,27 +1,21 @@
 export type Expert = {
   prompt: string;
-  role?: string;
+  name: string;
 };
 
 export function getExpertPrompt({
   task_prompt,
   expert_prompt,
   context,
-  role,
 }: {
   task_prompt: string;
   expert_prompt: string;
   context: string;
-  role?: string;
 }) {
-  const roleDescription = role ? `Your role is to be the ${role}.` : "";
-
   return `
   The setting is a discourse. Your goal is to ${task_prompt} based on a strict worldview/values/thinking patterns, in order to have a contrast with the other participants and create cognitive diversity. Don't be afraid to have contrarian views and aggressively attack other arguments.
 
   ${expert_prompt}
-
-  ${roleDescription}
 
   The topic to be discussed is: ${context}
   `;
