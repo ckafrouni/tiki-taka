@@ -27,7 +27,8 @@ The topic to be discussed is:
 ${context}
 """
 
-There are different types of contributions you can make to the conversation. Use them accordingly to make sure this is a lively discussion:
+There are different types of contributions you can make to the conversation. Use them accordingly to make sure this is a lively discussion. Besides just giving the point
+adress those of others by referencing their name using the following "actions": 
 """
 Direct Response  
 - Address specific points made by previous contributions  

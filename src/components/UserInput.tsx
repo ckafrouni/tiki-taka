@@ -24,7 +24,7 @@ export default function UserInput() {
         );
 
         try {
-          const responseText = await getExpertOutput(messages, expert);
+          const responseText = await getExpertOutput(messages, expert); // 0
           console.log(
             `Received response from expert ${expert.name} (${responseText.length} chars)`
           );

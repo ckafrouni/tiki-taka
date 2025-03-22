@@ -9,6 +9,7 @@ export interface UserMessage {
 export interface ExpertMessage {
   role: "assistant";
   expertID: number;
+  expertName: string;
   content: string;
 }
 
@@ -48,6 +49,7 @@ export const useChatStore = create<ChatState>((set) => ({
           {
             role: "assistant",
             expertID: expert.id,
+            expertName: expert.name,
             content,
           } satisfies ExpertMessage,
         ],

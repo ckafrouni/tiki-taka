@@ -16,19 +16,20 @@ export async function getExpertOutput(
   expert: Expert
 ): Promise<string> {
   // Convert messages to AI SDK format
+  console.log(messages)
   const formattedMessages = messages.map(
     (msg) =>
       ({
         id: crypto.randomUUID(),
-        role: msg.role === "user" ? "user" : "assistant",
-        content: msg.content,
+        role: msg.role === "user" ? "user" : "user",
+        content: `${msg.role === "assistant" ? msg.expertName : "Human"}: ${msg.content}`,
       } satisfies Message)
   );
 
   // Log all messages used for inference
-  console.log(`--- Inference for Expert ${expert.id} (${expert.name}) ---`);
-  console.log(`Total messages: ${messages.length}`);
-  console.log("Formatted messages:");
+  // console.log(`--- Inference for Expert ${expert.id} (${expert.name}) ---`);
+  // console.log(`Total messages: ${messages.length}`);
+  // console.log("Formatted messages:");
   formattedMessages.forEach((msg, index) => {
     console.log(
       `[${index}] ${msg.role}: ${msg.content.substring(0, 50)}${
