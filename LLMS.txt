@@ -1,0 +1,102 @@
+# Modern LLM Application Tech Stack
+
+## Core Technologies
+
+### Next.js with Server Actions
+- **Framework**: Next.js (v15+)
+- **Server Component Pattern**: Leveraging React Server Components for improved performance
+- **Server Actions**: Using Next.js server actions for secure, direct server-side operations
+- **Routing**: App Router for file-based routing with layouts and nested routes
+- **Rendering**: Hybrid rendering with Server Components, Client Components, and Static Site Generation where appropriate
+
+### State Management
+- **Global State**: Zustand for lightweight, flexible global state management
+- **Structure**: Actions grouped in the store for better organization and maintainability
+- **Pattern**: Prefer the actions object pattern for better encapsulation:
+  ```typescript
+  {
+    state: { ... },
+    actions: {
+      actionOne: () => {},
+      actionTwo: () => {}
+    }
+  }
+  ```
+
+### Data Fetching
+- **Library**: TanStack React Query (v5+)
+- **Pattern**: Custom hooks for encapsulating query and mutation logic
+- **Server State**: Using React Query for managing server state, caching, and synchronization
+- **Mutations**: Leveraging useMutation for handling form submissions and data updates
+
+### AI Integration
+- **SDK**: Vercel AI SDK for streamlined AI interactions
+- **Models**: Support for various LLM providers (OpenAI, Anthropic, etc.)
+- **Pattern**: Server actions for secure API key handling and direct LLM communication
+- **Features**: Both streaming and non-streaming response handling
+
+## Project Structure
+```
+src/
+├── actions/         # Server actions
+├── app/             # App router pages and layouts
+├── components/      # UI components
+├── config/          # Configuration files
+├── hooks/           # Custom React hooks
+├── providers/       # Context providers
+├── stores/          # Zustand stores
+└── types/           # TypeScript type definitions
+```
+
+## Best Practices
+
+### State Management
+- Keep UI state in React components when possible
+- Use Zustand for shared state across components
+- Organize Zustand stores by domain/feature
+- Group actions in a dedicated object for better organization
+
+### Server Actions
+- Use server actions for secure API calls and database operations
+- Keep server actions in dedicated files under the actions directory
+- Type server action parameters and return values
+
+### React Query
+- Create custom hooks for each query/mutation
+- Use appropriate stale times and caching strategies
+- Implement proper error handling and loading states
+- Leverage query invalidation for data refetching
+
+### AI Implementation
+- Keep API keys secure in environment variables
+- Implement proper error handling for AI API calls
+- Consider rate limiting and token usage
+- Use system prompts to guide AI behavior
+
+## Development Workflow
+1. Create page components with server components where possible
+2. Implement server actions for data operations
+3. Create Zustand stores for global state
+4. Build custom hooks with React Query for data fetching
+5. Connect components to stores and hooks
+
+## Dependencies
+- next
+- react
+- react-dom
+- zustand
+- @tanstack/react-query
+- ai (Vercel AI SDK)
+- @vercel/ai (if using streaming UI components)
+- typescript
+- tailwindcss (for styling)
+
+## Environment Variables
+```
+# LLM API Keys
+OPENAI_API_KEY=
+ANTHROPIC_API_KEY=
+
+# App Config
+NEXT_PUBLIC_APP_URL=
+```
