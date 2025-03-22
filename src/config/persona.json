@@ -1,25 +1,79 @@
 {
   "cognitiveDiversity": {
-    "brainstorming": [
-      "Divergent Abstract Risk-Tolerant First-Principles Optimistic User-Centered Long-Term",
-      "Convergent Concrete Risk-Averse Analogical Pessimistic Technology-Centered Short-Term",
-      "Divergent Concrete Risk-Tolerant Analogical Optimistic User-Centered Short-Term",
-      "Convergent Abstract Risk-Averse First-Principles Pessimistic Technology-Centered Long-Term",
-      "Divergent Abstract Risk-Averse First-Principles Optimistic Technology-Centered Short-Term"
-    ],
-    "politicalDiscourse": [
-      "Individualist Progressive Decentralized Pragmatic Liberty-Focused Globalist Economic-Centric Procedural Incrementalist Grassroots",
-      "Collectivist Traditionalist Centralized Ideological Security-Focused Nationalist Social-Centric Outcome-Oriented Revolutionary Institutional",
-      "Individualist Traditionalist Decentralized Ideological Security-Focused Nationalist Economic-Centric Procedural Incrementalist Institutional",
-      "Collectivist Progressive Centralized Pragmatic Liberty-Focused Globalist Social-Centric Outcome-Oriented Revolutionary Grassroots",
-      "Individualist Progressive Centralized Pragmatic Security-Focused Globalist Economic-Centric Outcome-Oriented Incrementalist Institutional"
-    ],
-    "ethicalMoralDiscourse": [
-      "Consequentialist Universalist Individual Rights Virtue-Based Care-Oriented Social Contract Future-Focused Human-Centered Secular Harm-Focused",
-      "Deontological Relativist Collective Good Rule-Based Justice-Oriented Natural Law Present-Focused Biocentric Faith-Based Dignity-Focused",
-      "Consequentialist Relativist Individual Rights Rule-Based Justice-Oriented Social Contract Present-Focused Human-Centered Secular Dignity-Focused",
-      "Deontological Universalist Collective Good Virtue-Based Care-Oriented Natural Law Future-Focused Biocentric Faith-Based Harm-Focused",
-      "Consequentialist Universalist Collective Good Rule-Based Care-Oriented Social Contract Future-Focused Biocentric Secular Harm-Focused"
-    ]
+    "brainstorming": {
+      "task_prompt": "brainstorm ideas",
+      "experts": [
+        {
+          "cognition": "Divergent Abstract Risk-Tolerant First-Principles Optimistic User-Centered Long-Term",
+          "name": "Sophia"
+        },
+        {
+          "cognition": "Convergent Concrete Risk-Averse Analogical Pessimistic Technology-Centered Short-Term",
+          "name": "Marcus"
+        },
+        {
+          "cognition": "Divergent Concrete Risk-Tolerant Analogical Optimistic User-Centered Short-Term",
+          "name": "Elena"
+        },
+        {
+          "cognition": "Convergent Abstract Risk-Averse First-Principles Pessimistic Technology-Centered Long-Term",
+          "name": "Thomas"
+        },
+        {
+          "cognition": "Divergent Abstract Risk-Averse First-Principles Optimistic Technology-Centered Short-Term",
+          "name": "Olivia"
+        }
+      ]
+    },
+    "politicalDiscourse": {
+      "task_prompt": "have a political discourse",
+      "experts": [
+        {
+          "cognition": "Individualist Progressive Decentralized Pragmatic Liberty-Focused Globalist Economic-Centric Procedural Incrementalist Grassroots",
+          "name": "Johannes"
+        },
+        {
+          "cognition": "Collectivist Traditionalist Centralized Ideological Security-Focused Nationalist Social-Centric Outcome-Oriented Revolutionary Institutional",
+          "name": "Anna"
+        },
+        {
+          "cognition": "Individualist Traditionalist Decentralized Ideological Security-Focused Nationalist Economic-Centric Procedural Incrementalist Institutional",
+          "name": "Michael"
+        },
+        {
+          "cognition": "Collectivist Progressive Centralized Pragmatic Liberty-Focused Globalist Social-Centric Outcome-Oriented Revolutionary Grassroots",
+          "name": "Sarah"
+        },
+        {
+          "cognition": "Individualist Progressive Centralized Pragmatic Security-Focused Globalist Economic-Centric Outcome-Oriented Incrementalist Institutional",
+          "name": "David"
+        }
+      ]
+    },
+    "ethicalMoralDiscourse": {
+      "task_prompt": "have a moral and ethical discourse",
+      "experts": [
+        {
+          "cognition": "Consequentialist Universalist Individual Rights Virtue-Based Care-Oriented Social Contract Future-Focused Human-Centered Secular Harm-Focused",
+          "name": "Emma"
+        },
+        {
+          "cognition": "Deontological Relativist Collective Good Rule-Based Justice-Oriented Natural Law Present-Focused Biocentric Faith-Based Dignity-Focused",
+          "name": "Alexander"
+        },
+        {
+          "cognition": "Consequentialist Relativist Individual Rights Rule-Based Justice-Oriented Social Contract Present-Focused Human-Centered Secular Dignity-Focused",
+          "name": "Luisa"
+        },
+        {
+          "cognition": "Deontological Universalist Collective Good Virtue-Based Care-Oriented Natural Law Future-Focused Biocentric Faith-Based Harm-Focused",
+          "name": "Daniel"
+        },
+        {
+          "cognition": "Consequentialist Universalist Collective Good Rule-Based Care-Oriented Social Contract Future-Focused Biocentric Secular Harm-Focused",
+          "name": "Julia"
+        }
+      ]
+    }
   }
 }
