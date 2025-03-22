@@ -7,12 +7,16 @@ export function getExpertPrompt({
   task_prompt,
   expert_prompt,
   context,
+  name,
 }: {
   task_prompt: string;
   expert_prompt: string;
   context: string;
+  name: string;
 }) {
   return `
+Your name is ${name}
+
 You are in a conversation with multiple other personas. Your goal is to ${task_prompt} based on a strict worldview/values/thinking patterns, in order to have a contrast with the other participants and create cognitive diversity. Don't be afraid to have contrarian views and aggressively attack other arguments.
 
 ${expert_prompt}

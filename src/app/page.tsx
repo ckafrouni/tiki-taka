@@ -27,6 +27,7 @@ export default function Home() {
           task_prompt,
           expert_prompt: cognitiveDiversity[task_name]["experts"][0]["cognition"],
           context,
+          name: cognitiveDiversity[task_name]["experts"][0]["name"],
         }),
       },
       {
@@ -35,6 +36,7 @@ export default function Home() {
           task_prompt,
           expert_prompt: cognitiveDiversity[task_name]["experts"][1]["cognition"],
           context,
+          name: cognitiveDiversity[task_name]["experts"][1]["name"],
         }),
       },
       {
@@ -43,6 +45,7 @@ export default function Home() {
           task_prompt,
           expert_prompt: cognitiveDiversity[task_name]["experts"][2]["cognition"],
           context,
+          name: cognitiveDiversity[task_name]["experts"][2]["name"],
         }),
       },
     ]);
