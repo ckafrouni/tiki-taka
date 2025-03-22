@@ -31,7 +31,7 @@ const ExpertResponse = ({
   return (
     <div className="flex flex-col h-full border rounded-lg p-4 bg-white shadow-sm">
       <div className="font-bold text-lg mb-2 pb-2 border-b">
-        {expert.role || `Expert ${index + 1}`}
+        {expert.name || `Expert ${index + 1}`}
       </div>
 
       {latestUserMessage && (
