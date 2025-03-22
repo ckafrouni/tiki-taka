@@ -4,6 +4,7 @@ import { Message } from "ai";
 import { anthropic } from "@ai-sdk/anthropic";
 import { generateText } from "ai";
 import { Expert } from "~/config/chat-config";
+import { UserMessage, ExpertMessage } from "~/stores/chat-store";
 
 const CHAT_MODEL_CONFIG = {
   model: anthropic("claude-3-5-sonnet-latest"),
@@ -11,11 +12,35 @@ const CHAT_MODEL_CONFIG = {
 };
 
 export async function getExpertOutput(
-  messages: Message[],
+  messages: (UserMessage | ExpertMessage)[],
   expert: Expert
 ): Promise<string> {
+  // Convert messages to AI SDK format
+  const formattedMessages = messages.map(
+    (msg) =>
+      ({
+        id: crypto.randomUUID(),
+        role: msg.role === "user" ? "user" : "assistant",
+        content: msg.content,
+      } satisfies Message)
+  );
+
+  // Log all messages used for inference
+  console.log(`--- Inference for Expert ${expert.id} (${expert.name}) ---`);
+  console.log(`Total messages: ${messages.length}`);
+  console.log("Formatted messages:");
+  formattedMessages.forEach((msg, index) => {
+    console.log(
+      `[${index}] ${msg.role}: ${msg.content.substring(0, 50)}${
+        msg.content.length > 50 ? "..." : ""
+      }`
+    );
+  });
+  console.log(`System prompt: ${expert.prompt.substring(0, 100)}...`);
+  console.log("-------------------------------------------");
+
   // Ensure we have messages to process
-  if (!messages || messages.length === 0) {
+  if (!formattedMessages || formattedMessages.length === 0) {
     console.error("No messages provided to getExpertOutput");
     return "No messages provided to generate a response.";
   }
@@ -28,7 +53,7 @@ export async function getExpertOutput(
 
     const response = await generateText({
       model: CHAT_MODEL_CONFIG.model,
-      messages,
+      messages: formattedMessages,
       maxTokens: CHAT_MODEL_CONFIG.maxTokens,
       system: expert.prompt,
     });

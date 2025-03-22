@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { Expert } from "~/config/chat-config";
-import { Message } from "ai";
 
 export interface UserMessage {
   role: "user";
@@ -15,7 +14,6 @@ export interface ExpertMessage {
 
 interface ChatState {
   messages: (UserMessage | ExpertMessage)[];
-  formattedMessagesForAISDK: Message[];
   isLoading: boolean;
   input: string;
   experts: Expert[];
@@ -31,7 +29,6 @@ interface ChatState {
 
 export const useChatStore = create<ChatState>((set) => ({
   messages: [],
-  formattedMessagesForAISDK: [],
   isLoading: false,
   input: "",
   experts: [],
@@ -43,14 +40,6 @@ export const useChatStore = create<ChatState>((set) => ({
           ...state.messages,
           { role: "user", content } satisfies UserMessage,
         ],
-        formattedMessagesForAISDK: [
-          ...state.formattedMessagesForAISDK,
-          {
-            id: crypto.randomUUID(),
-            role: "user",
-            content,
-          } satisfies Message,
-        ],
       })),
     addExpertMessage: (expert: Expert, content: string) =>
       set((state) => ({
@@ -61,14 +50,6 @@ export const useChatStore = create<ChatState>((set) => ({
             expertID: expert.id,
             content,
           } satisfies ExpertMessage,
-        ],
-        formattedMessagesForAISDK: [
-          ...state.formattedMessagesForAISDK,
-          {
-            id: crypto.randomUUID(),
-            role: "assistant",
-            content,
-          } satisfies Message,
         ],
       })),
     setInput: (input) => set({ input }),

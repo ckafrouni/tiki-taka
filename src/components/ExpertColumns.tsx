@@ -9,14 +9,15 @@ interface ExpertResponseProps {
 }
 
 const ExpertResponse = ({ expert, latestUserMessage }: ExpertResponseProps) => {
-  const { messages } = useChatStore();
-
-  // Find the latest response from this expert which has role "assistant" and expertID
-  const latestResponse =
-    messages
-      .reverse()
-      .find((msg) => msg.role === "assistant" && msg.expertID === expert.id)
-      ?.content || "";
+  // Use a selector to get only the latest response for this expert
+  const latestResponse = useChatStore((state) => {
+    return (
+      [...state.messages]
+        .reverse()
+        .find((msg) => msg.role === "assistant" && msg.expertID === expert.id)
+        ?.content || ""
+    );
+  });
 
   return (
     <div className="flex flex-col h-full border rounded-lg p-4 bg-white shadow-sm">
@@ -38,12 +39,16 @@ const ExpertResponse = ({ expert, latestUserMessage }: ExpertResponseProps) => {
 };
 
 export function ExpertColumns() {
-  const { messages, experts } = useChatStore();
-  console.log(`RENDERING ExpertColumns ${messages.length}`);
+  // Use selectors to get only what we need from the store
+  const experts = useChatStore((state) => state.experts);
 
-  // Find the latest user message which is the latest message with role "user" in messages
-  const latestUserMessage =
-    messages.reverse().find((msg) => msg.role === "user")?.content || null;
+  // Get the latest user message directly with a selector
+  const latestUserMessage = useChatStore((state) => {
+    return (
+      [...state.messages].reverse().find((msg) => msg.role === "user")
+        ?.content || null
+    );
+  });
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 flex-1 overflow-hidden">

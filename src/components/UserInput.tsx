@@ -11,15 +11,22 @@ export default function UserInput() {
   const expertMutation = useMutation({
     mutationFn: async (userInput: string) => {
       actions.addUserMessage(userInput);
-      const { formattedMessagesForAISDK } = useChatStore.getState();
+
+      console.log("Starting expert responses for user input:", userInput);
+      console.log(`Processing responses for ${experts.length} experts`);
 
       for (let i = 0; i < experts.length; i++) {
+        const { messages } = useChatStore.getState();
+
         const expert = experts[i];
+        console.log(
+          `Processing expert ${i + 1}/${experts.length}: ${expert.name}`
+        );
 
         try {
-          const responseText = await getExpertOutput(
-            formattedMessagesForAISDK,
-            expert
+          const responseText = await getExpertOutput(messages, expert);
+          console.log(
+            `Received response from expert ${expert.name} (${responseText.length} chars)`
           );
           actions.addExpertMessage(expert, responseText);
         } catch (error) {
@@ -32,6 +39,8 @@ export default function UserInput() {
           );
         }
       }
+
+      console.log("All expert responses completed");
     },
     onMutate: () => {
       actions.setIsLoading(true);
