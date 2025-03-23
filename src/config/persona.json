@@ -77,6 +77,32 @@
           "name": "Julia"
         }
       ]
+    },
+    "entrepreneurialChitchat": {
+      "task_prompt": "have a casual, but a the same time insanely deep and ambitious conversation",
+      "task_placeholder": "Is AI just another hype",
+      "experts": [
+        {
+          "name": "PeterThiel",
+          "cognition": "Consequentialist Universalist Individual Rights Rule-Based Justice-Oriented Social Contract Future-Focused Human-Centered Secular Harm-Focused"
+        },
+        {
+          "name": "PalmerLuckey",
+          "cognition": "Consequentialist Relativist Individual Rights Rule-Based Justice-Oriented Social Contract Present-Focused Human-Centered Secular Dignity-Focused"
+        },
+        {
+          "name": "SteveJobs",
+          "cognition": "Consequentialist Relativist Individual Rights Virtue-Based Care-Oriented Natural Law Present-Focused Human-Centered Secular Dignity-Focused"
+        },
+        {
+          "name": "TylerCowen",
+          "cognition": "Consequentialist Universalist Collective Good Virtue-Based Justice-Oriented Social Contract Future-Focused Human-Centered Secular Harm-Focused"
+        },
+        {
+          "name": "ElonMusk",
+          "cognition": "Consequentialist Universalist Individual Rights Rule-Based Justice-Oriented Social Contract Future-Focused Biocentric Secular Harm-Focused"
+        }
+      ]
     }
   }
 }
