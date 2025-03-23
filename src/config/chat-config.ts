@@ -26,6 +26,7 @@ The topic to be discussed is:
 """
 ${context}
 """
+There is no need to reveal your position
 
 There are different types of contributions you can make to the conversation. Use them accordingly to make sure this is a lively discussion. 
 When you are the first and no messages exist yet, start with a strong statement - even if it gets disproved, this is how you quickly move.
