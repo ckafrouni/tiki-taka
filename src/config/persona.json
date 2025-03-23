@@ -54,7 +54,7 @@
     },
     "ethicalMoralDiscourse": {
       "task_prompt": "have a moral and ethical discourse",
-      "task_placeholder": "Is it okay to be proud of your race?",
+      "task_placeholder": "How will humans have satisfaction once automation solves all problems and removes all friction?",
       "experts": [
         {
           "cognition": "Consequentialist Universalist Individual Rights Virtue-Based Care-Oriented Social Contract Future-Focused Human-Centered Secular Harm-Focused",
