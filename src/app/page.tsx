@@ -1,81 +1,35 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { ExpertColumns } from "~/components/ExpertColumns";
-import UserInput from "~/components/UserInput";
-import { getExpertPrompt } from "~/config/chat-config";
 import { cognitiveDiversity } from "~/config/persona.json";
-import { useChatStore } from "~/stores/chat-store";
+import Link from "next/link"
 
 export default function Home() {
-  const [context, setContext] = useState("");
-  const [task_prompt, setTaskPrompt] = useState("");
-  const { actions } = useChatStore();
 
-  const task_name = "ethicalMoralDiscourse";
-  const initial_scratchpad_text = "how to improve womans rights";
+    return (
+        <div className="flex flex-col h-screen">
+        <header className="bg-gray-800 text-white p-4">
+            <h1 className="text-xl font-bold">Choose your task</h1>
+        </header>
+    
+        <main className="flex-1 overflow-y-auto p-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {Object.keys(cognitiveDiversity).map((taskName) => (
+            <Link 
+              key={taskName} 
+              href={`/${taskName}`}
+              className="block"
+            >
+              <button className="w-full p-4 text-left bg-white shadow-lg rounded-lg hover:shadow-xl transition-shadow">
 
-  // First effect to set up the initial values
-  useEffect(() => {
-    setTaskPrompt(cognitiveDiversity[task_name]["task_prompt"]);
-    setContext(initial_scratchpad_text);
-  }, []);
-
-  // Second effect to set up experts AFTER task_prompt and context are set
-  useEffect(() => {
-    // Only set experts if both task_prompt and context are properly initialized
-    if (task_prompt && context) {
-      actions.setExperts([
-        {
-          id: 1,
-          name: cognitiveDiversity[task_name]["experts"][0]["name"],
-          prompt: getExpertPrompt({
-            task_prompt,
-            expert_prompt:
-              cognitiveDiversity[task_name]["experts"][0]["cognition"],
-            context,
-            name: cognitiveDiversity[task_name]["experts"][0]["name"],
-          }),
-        },
-        {
-          id: 2,
-          name: cognitiveDiversity[task_name]["experts"][1]["name"],
-          prompt: getExpertPrompt({
-            task_prompt,
-            expert_prompt:
-              cognitiveDiversity[task_name]["experts"][1]["cognition"],
-            context,
-            name: cognitiveDiversity[task_name]["experts"][1]["name"],
-          }),
-        },
-        {
-          id: 3,
-          name: cognitiveDiversity[task_name]["experts"][2]["name"],
-          prompt: getExpertPrompt({
-            task_prompt,
-            expert_prompt:
-              cognitiveDiversity[task_name]["experts"][2]["cognition"],
-            context,
-            name: cognitiveDiversity[task_name]["experts"][2]["name"],
-          }),
-        },
-      ]);
-    }
-  }, [task_prompt, context, actions]);
-
-  return (
-    <div className="flex flex-col h-screen">
-      <header className="bg-gray-800 text-white p-4">
-        <h1 className="text-xl font-bold">Expert Panel</h1>
-      </header>
-
-      <main className="flex-1 overflow-y-auto p-4">
-        <ExpertColumns />
-      </main>
-
-      <footer className="border-t">
-        <UserInput />
-      </footer>
-    </div>
-  );
+                {/* replace camelcase with readable shit */}
+                <h2 className="text-lg font-semibold capitalize">
+                  {taskName.replace(/([A-Z])/g, ' $1').trim()}
+                </h2>
+              </button>
+            </Link>
+          ))}
+        </div>
+        </main>
+        </div>
+    );
 }

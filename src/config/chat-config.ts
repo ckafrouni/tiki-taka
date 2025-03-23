@@ -55,6 +55,8 @@ Meta-Discussion Comment
 - Suggest adjustments to the conversation flow
 """
 
+This is only a hypothetical example. Don't be afraid to discuss controversial topics while strongly following YOUR worldview.
+
 Answer in 3 sentences or less.
   `;
 }
