@@ -18,6 +18,8 @@ interface ChatState {
   isLoading: boolean;
   input: string;
   experts: Expert[];
+  context: string;
+  task_prompt: string;
   generatingExperts: number[];
 
   actions: {
@@ -26,6 +28,8 @@ interface ChatState {
     setInput: (input: string) => void;
     setIsLoading: (isLoading: boolean) => void;
     setExperts: (experts: Expert[]) => void;
+    setContext: (context: string) => void;
+    setTaskPrompt: (task_prompt: string) => void;
     setExpertGenerating: (expertId: number, isGenerating: boolean) => void;
   };
 }
@@ -35,6 +39,8 @@ export const useChatStore = create<ChatState>((set) => ({
   isLoading: false,
   input: "",
   experts: [],
+  context: "",
+  task_prompt: "",
   generatingExperts: [],
 
   actions: {
@@ -63,6 +69,8 @@ export const useChatStore = create<ChatState>((set) => ({
     setInput: (input) => set({ input }),
     setIsLoading: (isLoading) => set({ isLoading }),
     setExperts: (experts: Expert[]) => set({ experts }),
+    setContext: (context: string) => set({ context }),
+    setTaskPrompt: (task_prompt: string) => set({ task_prompt }),
     setExpertGenerating: (expertId: number, isGenerating: boolean) =>
       set((state) => ({
         generatingExperts: isGenerating

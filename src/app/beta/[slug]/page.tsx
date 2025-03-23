@@ -1,14 +1,15 @@
 "use client";
 
+import UserInput from "./components/UserInput";
+import Sidebar from "./components/Sidebar";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
-import { ExpertColumns } from "~/components/ExpertColumns";
-import UserInput from "~/app/beta/[slug]/components/UserInput";
 import { getExpertPrompt } from "~/config/chat-config";
 import { cognitiveDiversity } from "~/config/persona.json";
 import { useChatStore } from "~/stores/chat-store";
+import { ExpertColumns } from "./components/ExpertColumns";
 
-export default function Home() {
+export default function BetaPage() {
   const params = useParams();
   const task_name = params.slug as keyof typeof cognitiveDiversity;
 
@@ -63,25 +64,12 @@ export default function Home() {
   }, [task_prompt, context, actions]);
 
   return (
-    <div className="flex flex-col h-screen">
-      <header className="bg-gray-800 text-white p-4">
-        <h1 className="text-xl font-bold">Expert Panel</h1>
-      </header>
-
-      <textarea
-        value={context}
-        onChange={(e) => {
-          actions.setContext(e.target.value);
-        }}
-      ></textarea>
-
+    <div className="fixed inset-0 w-screen h-screen bg-neutral-900 text-white overflow-hidden">
       <main className="flex-1 overflow-y-auto p-4">
         <ExpertColumns />
       </main>
-
-      <footer className="border-t">
-        <UserInput />
-      </footer>
+      <Sidebar />
+      <UserInput />
     </div>
   );
 }
