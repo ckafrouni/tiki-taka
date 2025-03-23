@@ -3,6 +3,7 @@
 import { LucideChevronRight, LucideMessageCircle } from "lucide-react";
 import { useWorkspaceStore } from "~/stores/workspace-store";
 import { useChatStore } from "~/stores/chat-store";
+import { useState, useEffect } from 'react';
 
 export default function Sidebar() {
   const { currentTab } = useWorkspaceStore();
@@ -100,12 +101,35 @@ function SidebarContent({
   currentTab: "context" | "messages" | null;
   className?: string;
 }) {
+  // Use state to control content visibility with a delay
+  const [showContent, setShowContent] = useState(false);
+  
+  // Update showContent based on currentTab with appropriate delays
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    
+    if (currentTab) {
+      // Show content after sidebar is fully open (300ms is the sidebar transition duration)
+      timer = setTimeout(() => setShowContent(true), 300);
+    } else {
+      // Hide content immediately when closing starts
+      setShowContent(false);
+    }
+    
+    return () => clearTimeout(timer);
+  }, [currentTab]);
+  
   return (
     <div
       className={`absolute top-0 left-0 z-10 rounded-tr-xl rounded-br-xl h-full bg-neutral-100 text-black overflow-hidden transition-all duration-300 ease-in-out ${className}`}
     >
-      {currentTab &&
-        (currentTab === "context" ? <ContextTab /> : <ChatHistoryTab />)}
+      <div 
+        className={`h-full transition-opacity duration-300 ease-in-out ${
+          showContent ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
+        {currentTab && (currentTab === "context" ? <ContextTab /> : <ChatHistoryTab />)}
+      </div>
     </div>
   );
 }
