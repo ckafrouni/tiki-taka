@@ -20,6 +20,28 @@ const ExpertResponse = ({ expert, latestUserMessage }: ExpertResponseProps) => {
     );
   });
 
+  // Get all experts to find colors for @mentions
+  const allExperts = useChatStore((state) => state.experts);
+
+  // Function to get expert color by name
+  const getExpertColorByName = (name: string) => {
+    // Remove the @ symbol
+    const expertName = name.substring(1);
+    
+    // Handle @All case
+    if (expertName.toLowerCase() === "all") {
+      return "#000000"; // Black color for @All
+    }
+    
+    // Find the expert by name
+    const foundExpert = allExperts.find(
+      (e) => e.name.toLowerCase() === expertName.toLowerCase()
+    );
+    
+    // Return the found expert's color or a default color
+    return foundExpert?.color || "#000000";
+  };
+
   // Check if this expert is currently generating
   const isGenerating = useChatStore((state) =>
     state.generatingExperts.includes(expert.id)
@@ -46,9 +68,13 @@ const ExpertResponse = ({ expert, latestUserMessage }: ExpertResponseProps) => {
 
   return (
     <div
-      className={`flex flex-col h-full border rounded-lg p-4 bg-white shadow-sm ${
-        isGenerating ? "border-blue-500 animate-pulse" : ""
+      className={`border-8 border-solid flex flex-col h-full rounded-lg p-4 shadow-sm ${
+        isGenerating ? "animate-pulse" : ""
       }`}
+      style={{
+        borderColor: expert.color,
+        backgroundColor: `${expert.color}10`,
+      }}
     >
       <div className="font-bold text-lg mb-2 pb-2 border-b flex justify-between items-center">
         <span>{expert.name || `Expert ${expert.id}`}</span>
@@ -67,7 +93,13 @@ const ExpertResponse = ({ expert, latestUserMessage }: ExpertResponseProps) => {
       <div className="flex-1 overflow-y-auto whitespace-pre-wrap">
         {latestResponse?.split(/(@\w+)/).map((part, i) =>
           part.startsWith("@") ? (
-            <span key={i} className="bg-yellow-200">
+            <span
+              key={i}
+              className="px-2 py-0.5 rounded-full mx-0.5 inline-block font-medium text-white"
+              style={{ 
+                backgroundColor: getExpertColorByName(part)
+              }}
+            >
               {part}
             </span>
           ) : (

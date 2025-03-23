@@ -2,6 +2,7 @@ export type Expert = {
   id: number;
   prompt: string;
   name: string;
+  color: string;
 };
 
 export function getExpertPrompt({

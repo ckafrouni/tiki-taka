@@ -82,12 +82,26 @@ export default function UserInput() {
     [input, isLoading, actions, expertMutation]
   );
 
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+      // Submit form on Enter without Shift key
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        if (!isLoading) {
+          sendMessage(event as unknown as FormEvent);
+        }
+      }
+    },
+    [sendMessage, isLoading]
+  );
+
   return (
     <form onSubmit={sendMessage}>
       <div className="outline-8 outline-neutral-900 absolute flex bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[100px] rounded-tl-xl rounded-tr-xl bg-neutral-100 text-neutral-900">
         <textarea
           value={input}
           onChange={(e) => actions.setInput(e.target.value)}
+          onKeyDown={handleKeyDown}
           placeholder="What are you thinking?"
           className="w-full h-full bg-neutral-900/5 rounded-tl-xl rounded-tr-xl mt-2 ml-2 p-2 resize-none text-neutral-900"
           disabled={isLoading}
