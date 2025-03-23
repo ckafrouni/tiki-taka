@@ -19,7 +19,7 @@ export default function BetaPage() {
   useEffect(() => {
     actions.setContext(cognitiveDiversity[task_name]["task_placeholder"]);
     actions.setTaskPrompt(cognitiveDiversity[task_name]["task_prompt"]);
-  }, []);
+  }, [task_name, actions]);
 
   // Second effect to set up experts AFTER task_prompt and context are set
   useEffect(() => {
@@ -64,7 +64,7 @@ export default function BetaPage() {
         },
       ]);
     }
-  }, [task_prompt, context, actions]);
+  }, [task_prompt, context, actions, task_name]);
 
   return (
     <div className="fixed inset-0 w-screen h-screen bg-neutral-900 text-white overflow-hidden">

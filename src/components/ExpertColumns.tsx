@@ -61,7 +61,7 @@ const ExpertResponse = ({ expert, latestUserMessage }: ExpertResponseProps) => {
 
       {latestUserMessage && (
         <div className="text-sm text-gray-500 mb-2 italic">
-          Responding to: "{latestUserMessage}"
+          Responding to: &quot;{latestUserMessage}&quot;
         </div>
       )}
       <div className="flex-1 overflow-y-auto whitespace-pre-wrap">

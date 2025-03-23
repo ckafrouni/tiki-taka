@@ -18,7 +18,7 @@ export default function Home() {
   useEffect(() => {
     actions.setContext(cognitiveDiversity[task_name]["task_placeholder"]);
     actions.setTaskPrompt(cognitiveDiversity[task_name]["task_prompt"]);
-  }, []);
+  }, [task_name, actions]);
 
   // Second effect to set up experts AFTER task_prompt and context are set
   useEffect(() => {
@@ -63,7 +63,7 @@ export default function Home() {
         },
       ]);
     }
-  }, [task_prompt, context, actions]);
+  }, [task_prompt, context, actions, task_name]);
 
   return (
     <div className="flex flex-col h-screen">

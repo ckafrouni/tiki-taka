@@ -20,37 +20,27 @@ const ExpertResponse = ({ expert, latestUserMessage }: ExpertResponseProps) => {
     );
   });
 
-  // Get all experts to find colors for @mentions
   const allExperts = useChatStore((state) => state.experts);
 
-  // Function to get expert color by name
   const getExpertColorByName = (name: string) => {
-    // Remove the @ symbol
     const expertName = name.substring(1);
 
-    // Handle @All case
     if (expertName.toLowerCase() === "all") {
-      return "#000000"; // Black color for @All
+      return "#000000";
     }
 
-    // Find the expert by name
     const foundExpert = allExperts.find(
       (e) => e.name.toLowerCase() === expertName.toLowerCase()
     );
 
-    // Return the found expert's color or a default color
     return foundExpert?.color || "#000000";
   };
 
-  // Check if this expert is currently generating
   const isGenerating = useChatStore((state) =>
     state.generatingExperts.includes(expert.id)
   );
-
-  // Animation dots state for generating indicator
   const [animationDots, setAnimationDots] = useState(".");
 
-  // Update animation dots when generating
   useEffect(() => {
     if (!isGenerating) return;
 
@@ -68,7 +58,7 @@ const ExpertResponse = ({ expert, latestUserMessage }: ExpertResponseProps) => {
 
   return (
     <div
-      className={`border-8 border-solid flex flex-col h-full rounded-lg p-4 shadow-sm ${
+      className={`border-8 border-solid flex flex-col h-full rounded-xl p-4 shadow-sm ${
         isGenerating ? "animate-pulse" : ""
       }`}
       style={{
@@ -87,7 +77,7 @@ const ExpertResponse = ({ expert, latestUserMessage }: ExpertResponseProps) => {
 
       {latestUserMessage && (
         <div className="text-sm text-gray-500 mb-2 italic">
-          Responding to: "{latestUserMessage}"
+          Responding to: &quot;{latestUserMessage}&quot;
         </div>
       )}
       <div className="flex-1 overflow-y-auto whitespace-pre-wrap">
@@ -112,10 +102,8 @@ const ExpertResponse = ({ expert, latestUserMessage }: ExpertResponseProps) => {
 };
 
 export function ExpertColumns() {
-  // Use selectors to get only what we need from the store
   const experts = useChatStore((state) => state.experts);
 
-  // Get the latest user message directly with a selector
   const latestUserMessage = useChatStore((state) => {
     return (
       [...state.messages].reverse().find((msg) => msg.role === "user")
