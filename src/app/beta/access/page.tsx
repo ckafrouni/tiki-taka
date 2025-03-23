@@ -1,38 +1,38 @@
 "use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function AccessPage() {
-  const [accessKey, setAccessKey] = useState('');
-  const [error, setError] = useState('');
+  const [accessKey, setAccessKey] = useState("");
+  const [error, setError] = useState("");
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       // Make a request to validate the access key
-      const response = await fetch('/api/validate-access', {
-        method: 'POST',
+      const response = await fetch("/api/validate-access", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ accessKey }),
       });
 
       const data = await response.json();
-      
+
       if (response.ok && data.valid) {
         // The cookie is set by the API route
         // Redirect to the beta home page
-        router.push('/beta');
+        router.push("/beta");
         router.refresh(); // Force a refresh to apply the new cookie
       } else {
-        setError('Invalid access key');
+        setError("Invalid access key");
       }
-    } catch (err) {
-      setError('An error occurred. Please try again.');
+    } catch {
+      setError("An error occurred. Please try again.");
     }
   };
 
@@ -43,10 +43,12 @@ export default function AccessPage() {
           <h1 className="text-4xl font-bold mb-2">Beta Access</h1>
           <p className="text-neutral-400">Enter your access key to continue</p>
         </div>
-        
+
         <form onSubmit={handleSubmit} className="mt-8 space-y-6">
           <div>
-            <label htmlFor="accessKey" className="sr-only">Access Key</label>
+            <label htmlFor="accessKey" className="sr-only">
+              Access Key
+            </label>
             <input
               id="accessKey"
               name="accessKey"
@@ -58,11 +60,9 @@ export default function AccessPage() {
               onChange={(e) => setAccessKey(e.target.value)}
             />
           </div>
-          
-          {error && (
-            <div className="text-red-500 text-sm">{error}</div>
-          )}
-          
+
+          {error && <div className="text-red-500 text-sm">{error}</div>}
+
           <div>
             <button
               type="submit"
