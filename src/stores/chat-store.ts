@@ -18,6 +18,7 @@ interface ChatState {
   isLoading: boolean;
   input: string;
   experts: Expert[];
+  generatingExperts: number[];
 
   actions: {
     addUserMessage: (content: string) => void;
@@ -25,6 +26,7 @@ interface ChatState {
     setInput: (input: string) => void;
     setIsLoading: (isLoading: boolean) => void;
     setExperts: (experts: Expert[]) => void;
+    setExpertGenerating: (expertId: number, isGenerating: boolean) => void;
   };
 }
 
@@ -33,6 +35,7 @@ export const useChatStore = create<ChatState>((set) => ({
   isLoading: false,
   input: "",
   experts: [],
+  generatingExperts: [],
 
   actions: {
     addUserMessage: (content: string) =>
@@ -53,9 +56,18 @@ export const useChatStore = create<ChatState>((set) => ({
             content,
           } satisfies ExpertMessage,
         ],
+        generatingExperts: state.generatingExperts.filter(
+          (id) => id !== expert.id
+        ),
       })),
     setInput: (input) => set({ input }),
     setIsLoading: (isLoading) => set({ isLoading }),
     setExperts: (experts: Expert[]) => set({ experts }),
+    setExpertGenerating: (expertId: number, isGenerating: boolean) =>
+      set((state) => ({
+        generatingExperts: isGenerating
+          ? [...state.generatingExperts, expertId]
+          : state.generatingExperts.filter((id) => id !== expertId),
+      })),
   },
 }));

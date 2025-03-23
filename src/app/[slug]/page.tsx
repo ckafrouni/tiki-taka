@@ -12,8 +12,9 @@ export default function Home() {
   const params = useParams();
   const task_name = params.slug as keyof typeof cognitiveDiversity;
 
-
-  const [context, setContext] = useState(cognitiveDiversity[task_name]["task_placeholder"]);
+  const [context, setContext] = useState(
+    cognitiveDiversity[task_name]["task_placeholder"]
+  );
   const [task_prompt, setTaskPrompt] = useState("");
   const { actions } = useChatStore();
 
@@ -22,7 +23,6 @@ export default function Home() {
     setTaskPrompt(cognitiveDiversity[task_name]["task_prompt"]);
   }, []);
 
-  
   // Second effect to set up experts AFTER task_prompt and context are set
   useEffect(() => {
     // Only set experts if both task_prompt and context are properly initialized
@@ -65,15 +65,18 @@ export default function Home() {
     }
   }, [task_prompt, context, actions]);
 
-
-
   return (
     <div className="flex flex-col h-screen">
       <header className="bg-gray-800 text-white p-4">
         <h1 className="text-xl font-bold">Expert Panel</h1>
       </header>
 
-      <textarea value={context} onChange={(e) => {setContext(e.target.value)}}></textarea>
+      <textarea
+        value={context}
+        onChange={(e) => {
+          setContext(e.target.value);
+        }}
+      ></textarea>
 
       <main className="flex-1 overflow-y-auto p-4">
         <ExpertColumns />

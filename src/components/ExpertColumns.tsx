@@ -2,6 +2,7 @@
 
 import { useChatStore } from "~/stores/chat-store";
 import { Expert } from "~/config/chat-config";
+import { useEffect, useState } from "react";
 
 interface ExpertResponseProps {
   expert: Expert;
@@ -19,10 +20,43 @@ const ExpertResponse = ({ expert, latestUserMessage }: ExpertResponseProps) => {
     );
   });
 
+  // Check if this expert is currently generating
+  const isGenerating = useChatStore((state) =>
+    state.generatingExperts.includes(expert.id)
+  );
+
+  // Animation dots state for generating indicator
+  const [animationDots, setAnimationDots] = useState(".");
+
+  // Update animation dots when generating
+  useEffect(() => {
+    if (!isGenerating) return;
+
+    const interval = setInterval(() => {
+      setAnimationDots((prev) => {
+        if (prev === "...") return ".";
+        if (prev === "..") return "...";
+        if (prev === ".") return "..";
+        return ".";
+      });
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, [isGenerating]);
+
   return (
-    <div className="flex flex-col h-full border rounded-lg p-4 bg-white shadow-sm">
-      <div className="font-bold text-lg mb-2 pb-2 border-b">
-        {expert.name || `Expert ${expert.id}`}
+    <div
+      className={`flex flex-col h-full border rounded-lg p-4 bg-white shadow-sm ${
+        isGenerating ? "border-blue-500 animate-pulse" : ""
+      }`}
+    >
+      <div className="font-bold text-lg mb-2 pb-2 border-b flex justify-between items-center">
+        <span>{expert.name || `Expert ${expert.id}`}</span>
+        {isGenerating && (
+          <span className="text-blue-500 text-sm font-normal">
+            Generating{animationDots}
+          </span>
+        )}
       </div>
 
       {latestUserMessage && (
@@ -31,10 +65,14 @@ const ExpertResponse = ({ expert, latestUserMessage }: ExpertResponseProps) => {
         </div>
       )}
       <div className="flex-1 overflow-y-auto whitespace-pre-wrap">
-        {latestResponse?.split(/(@\w+)/).map((part, i) => 
-          part.startsWith('@') 
-            ? <span key={i} className="bg-yellow-200">{part}</span>
-            : part
+        {latestResponse?.split(/(@\w+)/).map((part, i) =>
+          part.startsWith("@") ? (
+            <span key={i} className="bg-yellow-200">
+              {part}
+            </span>
+          ) : (
+            part
+          )
         )}
       </div>
     </div>

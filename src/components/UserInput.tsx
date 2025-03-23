@@ -26,11 +26,17 @@ export default function UserInput() {
         );
 
         try {
+          // Set this expert as generating
+          actions.setExpertGenerating(expert.id, true);
+
           const responseText = await getExpertOutput(messages, expert); // 0
           console.log(
             `Received response from expert ${expert.name} (${responseText.length} chars)`
           );
           actions.addExpertMessage(expert, responseText);
+
+          // Expert is no longer generating (this is also handled in addExpertMessage but adding here for clarity)
+          actions.setExpertGenerating(expert.id, false);
         } catch (error) {
           console.error(`Error getting response for expert ${i}:`, error);
           actions.addExpertMessage(
@@ -39,6 +45,8 @@ export default function UserInput() {
               expert.name || `Expert ${i + 1}`
             }.`
           );
+          // Make sure to set expert as not generating even if there's an error
+          actions.setExpertGenerating(expert.id, false);
         }
       }
 
@@ -55,7 +63,6 @@ export default function UserInput() {
     },
   });
 
-
   const sendMessage = useCallback(
     // here we handle the state of the input and calling the mutation function
     // since empty messages (even with a system prompt) don't work, we simply append a "next" if the user is clicking "next" on an empty field
@@ -63,17 +70,16 @@ export default function UserInput() {
       event.preventDefault();
       if (isLoading) return;
       let currentInput = input;
-      
+
       if (!currentInput || currentInput == "") {
-        currentInput = "-"
+        currentInput = "-";
       }
-      
-      actions.setInput(""); 
+
+      actions.setInput("");
       await expertMutation.mutateAsync(currentInput);
     },
     [input, isLoading, actions, expertMutation]
   );
-
 
   return (
     <form onSubmit={sendMessage} className="p-4 border-t">
@@ -91,12 +97,7 @@ export default function UserInput() {
           disabled={isLoading}
           className="bg-blue-500 text-white px-4 py-2 rounded-r-lg hover:bg-blue-600 disabled:bg-blue-300 disabled:cursor-not-allowed"
         >
-          {isLoading 
-            ? "..." 
-            : input && input.length > 0 
-              ? "Send" 
-              : "Next"
-          }
+          {isLoading ? "..." : input && input.length > 0 ? "Send" : "Next"}
         </button>
       </div>
     </form>

@@ -16,13 +16,15 @@ export async function getExpertOutput(
   expert: Expert
 ): Promise<string> {
   // Convert messages to AI SDK format
-  console.log(messages)
+  console.log(messages);
   const formattedMessages = messages.map(
     (msg) =>
       ({
         id: crypto.randomUUID(),
         role: msg.role === "user" ? "user" : "user",
-        content: `${msg.role === "assistant" ? msg.expertName : "Human"}: ${msg.content}`,
+        content: `${msg.role === "assistant" ? msg.expertName : "Human"}: ${
+          msg.content
+        }`,
       } satisfies Message)
   );
 
