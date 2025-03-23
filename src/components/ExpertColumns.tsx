@@ -30,9 +30,12 @@ const ExpertResponse = ({ expert, latestUserMessage }: ExpertResponseProps) => {
           Responding to: "{latestUserMessage}"
         </div>
       )}
-
       <div className="flex-1 overflow-y-auto whitespace-pre-wrap">
-        {latestResponse}
+        {latestResponse?.split(/(@\w+)/).map((part, i) => 
+          part.startsWith('@') 
+            ? <span key={i} className="bg-yellow-200">{part}</span>
+            : part
+        )}
       </div>
     </div>
   );

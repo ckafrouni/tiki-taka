@@ -27,8 +27,10 @@ The topic to be discussed is:
 ${context}
 """
 
-There are different types of contributions you can make to the conversation. Use them accordingly to make sure this is a lively discussion. Besides just giving the point
-adress those of others by referencing their name using the following "actions": 
+There are different types of contributions you can make to the conversation. Use them accordingly to make sure this is a lively discussion. 
+When you are the first and no messages exist yet, start with a strong statement - even if it gets disproved, this is how you quickly move.
+Besides just giving the point adress those of others by referencing their name with an @ - for example @Human (you can also do @All), make sure to copy the capitilization.
+Using the following "actions": 
 """
 Direct Response  
 - Address specific points made by previous contributions  

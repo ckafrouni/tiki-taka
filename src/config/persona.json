@@ -2,6 +2,7 @@
   "cognitiveDiversity": {
     "brainstorming": {
       "task_prompt": "brainstorm ideas",
+      "task_placeholder": "There are two types of innovation: pain-killers and those that create new value by creating new desires and capabilities (this is called behavior explosion). I want to research possible domains where the second kind of innovation comes from.",
       "experts": [
         {
           "cognition": "Divergent Abstract Risk-Tolerant First-Principles Optimistic User-Centered Long-Term",
@@ -27,6 +28,7 @@
     },
     "politicalDiscourse": {
       "task_prompt": "have a political discourse",
+      "task_placeholder": "In the age of AI, would the best way to achieve UBI be a bottom-up (starting with small communities) or a top-down approach?",
       "experts": [
         {
           "cognition": "Individualist Progressive Decentralized Pragmatic Liberty-Focused Globalist Economic-Centric Procedural Incrementalist Grassroots",
@@ -52,6 +54,7 @@
     },
     "ethicalMoralDiscourse": {
       "task_prompt": "have a moral and ethical discourse",
+      "task_placeholder": "Is it okay to be proud of your race?",
       "experts": [
         {
           "cognition": "Consequentialist Universalist Individual Rights Virtue-Based Care-Oriented Social Contract Future-Focused Human-Centered Secular Harm-Focused",

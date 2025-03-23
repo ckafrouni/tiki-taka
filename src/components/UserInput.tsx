@@ -10,7 +10,9 @@ export default function UserInput() {
 
   const expertMutation = useMutation({
     mutationFn: async (userInput: string) => {
-      actions.addUserMessage(userInput);
+      if (userInput && userInput.length > 0) {
+        actions.addUserMessage(userInput);
+      }
 
       console.log("Starting expert responses for user input:", userInput);
       console.log(`Processing responses for ${experts.length} experts`);
@@ -53,16 +55,25 @@ export default function UserInput() {
     },
   });
 
+
   const sendMessage = useCallback(
+    // here we handle the state of the input and calling the mutation function
+    // since empty messages (even with a system prompt) don't work, we simply append a "next" if the user is clicking "next" on an empty field
     async (event: FormEvent) => {
       event.preventDefault();
-      if (!input.trim() || isLoading) return;
-      const currentInput = input;
-      actions.setInput(""); // Clear input immediately for better UX
+      if (isLoading) return;
+      let currentInput = input;
+      
+      if (!currentInput || currentInput == "") {
+        currentInput = "-"
+      }
+      
+      actions.setInput(""); 
       await expertMutation.mutateAsync(currentInput);
     },
     [input, isLoading, actions, expertMutation]
   );
+
 
   return (
     <form onSubmit={sendMessage} className="p-4 border-t">
@@ -77,10 +88,15 @@ export default function UserInput() {
         />
         <button
           type="submit"
-          disabled={isLoading || !input.trim()}
+          disabled={isLoading}
           className="bg-blue-500 text-white px-4 py-2 rounded-r-lg hover:bg-blue-600 disabled:bg-blue-300 disabled:cursor-not-allowed"
         >
-          {isLoading ? "..." : "Send"}
+          {isLoading 
+            ? "..." 
+            : input && input.length > 0 
+              ? "Send" 
+              : "Next"
+          }
         </button>
       </div>
     </form>
