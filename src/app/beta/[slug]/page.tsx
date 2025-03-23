@@ -36,7 +36,7 @@ export default function BetaPage() {
             context,
             name: cognitiveDiversity[task_name]["experts"][0]["name"],
           }),
-          color: "#FF0000",
+          color: "#FFA95D",
         },
         {
           id: 2,
@@ -48,7 +48,7 @@ export default function BetaPage() {
             context,
             name: cognitiveDiversity[task_name]["experts"][1]["name"],
           }),
-          color: "#00FF00",
+          color: "#64B2DF",
         },
         {
           id: 3,
@@ -60,7 +60,7 @@ export default function BetaPage() {
             context,
             name: cognitiveDiversity[task_name]["experts"][2]["name"],
           }),
-          color: "#0000FF",
+          color: "#FF79D0",
         },
       ]);
     }

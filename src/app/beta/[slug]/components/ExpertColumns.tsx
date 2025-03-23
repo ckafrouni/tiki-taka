@@ -27,17 +27,17 @@ const ExpertResponse = ({ expert, latestUserMessage }: ExpertResponseProps) => {
   const getExpertColorByName = (name: string) => {
     // Remove the @ symbol
     const expertName = name.substring(1);
-    
+
     // Handle @All case
     if (expertName.toLowerCase() === "all") {
       return "#000000"; // Black color for @All
     }
-    
+
     // Find the expert by name
     const foundExpert = allExperts.find(
       (e) => e.name.toLowerCase() === expertName.toLowerCase()
     );
-    
+
     // Return the found expert's color or a default color
     return foundExpert?.color || "#000000";
   };
@@ -96,8 +96,8 @@ const ExpertResponse = ({ expert, latestUserMessage }: ExpertResponseProps) => {
             <span
               key={i}
               className="px-2 py-0.5 rounded-full mx-0.5 inline-block font-medium text-white"
-              style={{ 
-                backgroundColor: getExpertColorByName(part)
+              style={{
+                backgroundColor: getExpertColorByName(part),
               }}
             >
               {part}
@@ -124,7 +124,7 @@ export function ExpertColumns() {
   });
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 flex-1 overflow-hidden">
+    <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 p-4 flex-1 overflow-hidden">
       {experts.map((expert) => (
         <ExpertResponse
           key={expert.id}
