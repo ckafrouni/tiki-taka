@@ -85,7 +85,7 @@ export default function UserInput() {
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
       // Submit form on Enter without Shift key
-      if (event.key === 'Enter' && !event.shiftKey) {
+      if (event.key === "Enter" && !event.shiftKey) {
         event.preventDefault();
         if (!isLoading) {
           sendMessage(event as unknown as FormEvent);

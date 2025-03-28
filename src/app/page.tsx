@@ -14,44 +14,50 @@ export default function Home() {
         <div className="flex flex-col gap-16">
           <div className="flex flex-row gap-8">
             <p className="flex-1 text-justify">
-              {
-                "We don't believe the popular notion idea-generation is a magical human capability and our collective MOAT over AI."
-              }
+              We don&rsquo;t believe the popular notion idea-generation is a
+              magical human capability and our collective MOAT over AI.
               <br />
-              {
-                "When you hear the word efficient brainstorming, you think about about unique insights coming from unique perspectives. This is the benefit of cognitive diversity - different thinking patterns, different focus points - the same comes for political or philosophical debates in the form of views."
-              }
+              When you hear the word efficient brainstorming, you think about
+              about unique insights coming from unique perspectives. This is the
+              benefit of cognitive diversity - different thinking patterns,
+              different focus points - the same comes for political or
+              philosophical debates in the form of views.
               <br />
-              {
-                "A single AI will never create deeply contrarian and unique takes - its 'diffused' personality will only generate shallow ideas that are hard to disprove to avoid opposing itself but are also hardly valuable."
-              }
+              A single AI will never create deeply contrarian and unique takes -
+              its &ldquo;diffused&rdquo; personality will only generate shallow
+              ideas that are hard to disprove to avoid opposing itself but are
+              also hardly valuable.
               <br />
-              {
-                "That is why such discussions are better with a cluster of AIs. They challenge takes, build upon existing ones, and ask you the right questions - instead of parroting the most obvious ideas, it makes a deep exploration into the idea maze."
-              }
+              That is why such discussions are better with a cluster of AIs.
+              They challenge takes, build upon existing ones, and ask you the
+              right questions - instead of parroting the most obvious ideas, it
+              makes a deep exploration into the idea maze.
               <br />
-              {
-                "AIs don't have the many biases we have and their lack of egos makes sure progress is done, no matter how many swear words are thrown around."
-              }
+              AIs don&rsquo;t have the many biases we have and their lack of
+              egos makes sure progress is done, no matter how many swear words
+              are thrown around.
               <br />
             </p>
 
             <p className="flex-1 text-justify">
-              {
-                "There are many applications which all require unique combination of thinking patterns. By capturing the views of the human, we can position the AIs perfectly asymmetrical to them."
-              }
+              There are many applications which all require unique combination
+              of thinking patterns. By capturing the views of the human, we can
+              position the AIs perfectly asymmetrical to them.
               <br />
-              {
-                "Conversations should be lively - dynamic turn-taking and interruption mechanisms are the future. Not just from the performance standpoint - this is the first time we can make 'discussion games'. Imagine trying to win an argument against Nietzsche and Aristotle about what the coolest Pokemon is."
-              }
+              Conversations should be lively - dynamic turn-taking and
+              interruption mechanisms are the future. Not just from the
+              performance standpoint - this is the first time we can make
+              &ldquo;discussion games&rdquo;. Imagine trying to win an argument
+              against Nietzsche and Aristotle about what the coolest Pok mon is.
               <br />
-              {
-                "Currently we employ a flexible approach, where the user can decide whether and how he participates in the conversation. More specific flows like forcing him to answer specific questions or have him simply observe the automatic loops are interesting things to explore."
-              }
+              Currently we employ a flexible approach, where the user can decide
+              whether and how he participates in the conversation. More specific
+              flows like forcing him to answer specific questions or have him
+              simply observe the automatic loops are interesting things to
+              explore.
               <br />
-              {
-                "Interestingly, arguments and ideas naturally let a tree structure emerge - graphs views would be cool."
-              }
+              Interestingly, arguments and ideas naturally let a tree structure
+              emerge - graphs views would be cool.
               <br />
             </p>
           </div>
@@ -60,7 +66,7 @@ export default function Home() {
             {Object.keys(cognitiveDiversity).map((taskName) => (
               <Link
                 key={taskName}
-                href={`/${taskName}`}
+                href={`/room/${taskName}`}
                 className="flex items-center justify-center text-neutral-900 bg-blue-200 hover:bg-blue-300 w-full p-4 text-center text-2xl font-semibold capitalize rounded-xl transition-colors"
               >
                 {taskName.replace(/([A-Z])/g, " $1").trim()}
