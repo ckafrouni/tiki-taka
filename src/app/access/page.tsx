@@ -25,8 +25,8 @@ export default function AccessPage() {
 
       if (response.ok && data.valid) {
         // The cookie is set by the API route
-        // Redirect to the beta home page
-        router.push("/beta");
+        // Redirect to the home page
+        router.push("/");
         router.refresh(); // Force a refresh to apply the new cookie
       } else {
         setError("Invalid access key");
@@ -40,7 +40,7 @@ export default function AccessPage() {
     <div className="flex items-center justify-center min-h-screen bg-neutral-900 text-white">
       <div className="w-full max-w-md p-8 space-y-8 bg-neutral-800 rounded-xl shadow-lg">
         <div className="text-center">
-          <h1 className="text-4xl font-bold mb-2">Beta Access</h1>
+          <h1 className="text-4xl font-bold mb-2">Access</h1>
           <p className="text-neutral-400">Enter your access key to continue</p>
         </div>
 
@@ -68,7 +68,7 @@ export default function AccessPage() {
               type="submit"
               className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
-              Continue to Beta
+              Continue to Home
             </button>
           </div>
         </form>
