@@ -2,7 +2,7 @@
 
 import { Message } from "ai";
 import { anthropic } from "@ai-sdk/anthropic";
-import { generateText } from "ai";
+import { streamText } from "ai";
 import { Expert } from "~/config/chat-config";
 import { UserMessage, ExpertMessage } from "~/stores/chat-store";
 
@@ -14,9 +14,7 @@ const CHAT_MODEL_CONFIG = {
 export async function getExpertOutput(
   messages: (UserMessage | ExpertMessage)[],
   expert: Expert
-): Promise<string> {
-  // Convert messages to AI SDK format
-  console.log(messages);
+): Promise<ReadableStream<string>> {
   const formattedMessages = messages.map(
     (msg) =>
       ({
@@ -28,48 +26,36 @@ export async function getExpertOutput(
       } satisfies Message)
   );
 
-  // Log all messages used for inference
-  // console.log(`--- Inference for Expert ${expert.id} (${expert.name}) ---`);
-  // console.log(`Total messages: ${messages.length}`);
-  // console.log("Formatted messages:");
-  formattedMessages.forEach((msg, index) => {
-    console.log(
-      `[${index}] ${msg.role}: ${msg.content.substring(0, 50)}${
-        msg.content.length > 50 ? "..." : ""
-      }`
-    );
-  });
-  console.log(`System prompt: ${expert.prompt.substring(0, 100)}...`);
-  console.log("-------------------------------------------");
-
-  // Ensure we have messages to process
   if (!formattedMessages || formattedMessages.length === 0) {
-    console.error("No messages provided to getExpertOutput");
-    return "No messages provided to generate a response.";
+    return new ReadableStream<string>();
   }
 
   try {
-    // Make sure ANTHROPIC_API_KEY is set in your environment variables
-    if (!process.env.ANTHROPIC_API_KEY) {
-      throw new Error("ANTHROPIC_API_KEY is not set in environment variables");
-    }
-
-    const response = await generateText({
+    const result = streamText({
       model: CHAT_MODEL_CONFIG.model,
       messages: formattedMessages,
       maxTokens: CHAT_MODEL_CONFIG.maxTokens,
       system: expert.prompt,
+      onError: (error) => {
+        console.error("Error streaming from Anthropic API:", error);
+      },
     });
 
-    return response.text;
+    return result.textStream;
   } catch (error) {
-    console.error("Error calling Anthropic API:", error);
+    console.error("Error setting up Anthropic API stream:", error);
 
-    // More detailed error message
-    if (error instanceof Error) {
-      return `Error: ${error.message}`;
-    }
+    const errorStream = new ReadableStream({
+      start(controller) {
+        const errorMessage =
+          error instanceof Error
+            ? `Error: ${error.message}`
+            : "There was an error generating a response. Please try again.";
+        controller.enqueue(errorMessage);
+        controller.close();
+      },
+    });
 
-    return "There was an error generating a response. Please try again.";
+    return errorStream;
   }
 }

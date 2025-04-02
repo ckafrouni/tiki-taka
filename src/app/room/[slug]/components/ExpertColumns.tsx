@@ -1,25 +1,23 @@
 "use client";
 
-import { useChatStore } from "~/stores/chat-store";
+import {
+  getLatestExpertMessage,
+  getLatestUserMessage,
+  useChatStore,
+} from "~/stores/chat-store";
 import { Expert } from "~/config/chat-config";
 import { useEffect, useState } from "react";
 
 interface ExpertResponseProps {
   expert: Expert;
-  latestUserMessage: string | null;
+  latestUserMessage: string | undefined;
 }
 
 const ExpertResponse = ({ expert, latestUserMessage }: ExpertResponseProps) => {
-  // Use a selector to get only the latest response for this expert
-  const latestResponse = useChatStore((state) => {
-    return (
-      [...state.messages]
-        .reverse()
-        .find((msg) => msg.role === "assistant" && msg.expertID === expert.id)
-        ?.content || ""
-    );
-  });
-
+  const latestResponse = getLatestExpertMessage(
+    useChatStore.getState(),
+    expert.id
+  );
   const allExperts = useChatStore((state) => state.experts);
 
   const getExpertColorByName = (name: string) => {
@@ -103,13 +101,7 @@ const ExpertResponse = ({ expert, latestUserMessage }: ExpertResponseProps) => {
 
 export function ExpertColumns() {
   const experts = useChatStore((state) => state.experts);
-
-  const latestUserMessage = useChatStore((state) => {
-    return (
-      [...state.messages].reverse().find((msg) => msg.role === "user")
-        ?.content || null
-    );
-  });
+  const latestUserMessage = getLatestUserMessage(useChatStore.getState());
 
   return (
     <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 p-4 flex-1 overflow-hidden">

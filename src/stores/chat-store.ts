@@ -24,7 +24,11 @@ interface ChatState {
 
   actions: {
     addUserMessage: (content: string) => void;
-    addExpertMessage: (expert: Expert, content: string) => void;
+    addExpertMessage: (
+      expert: Expert,
+      content: string,
+      isStreaming?: boolean
+    ) => void;
     setInput: (input: string) => void;
     setIsLoading: (isLoading: boolean) => void;
     setExperts: (experts: Expert[]) => void;
@@ -51,21 +55,47 @@ export const useChatStore = create<ChatState>((set) => ({
           { role: "user", content } satisfies UserMessage,
         ],
       })),
-    addExpertMessage: (expert: Expert, content: string) =>
-      set((state) => ({
-        messages: [
-          ...state.messages,
-          {
+    addExpertMessage: (expert: Expert, content: string, isStreaming = false) =>
+      set((state) => {
+        const lastMessage = state.messages[state.messages.length - 1];
+        const isLastMessageFromSameExpert =
+          lastMessage &&
+          lastMessage.role === "assistant" &&
+          lastMessage.expertID === expert.id;
+
+        if (isStreaming && isLastMessageFromSameExpert) {
+          const updatedMessages = [...state.messages];
+          updatedMessages[updatedMessages.length - 1] = {
             role: "assistant",
             expertID: expert.id,
             expertName: expert.name,
             content,
-          } satisfies ExpertMessage,
-        ],
-        generatingExperts: state.generatingExperts.filter(
-          (id) => id !== expert.id
-        ),
-      })),
+          } satisfies ExpertMessage;
+
+          return {
+            messages: updatedMessages,
+          };
+        } else {
+          return {
+            messages: [
+              ...state.messages,
+              {
+                role: "assistant",
+                expertID: expert.id,
+                expertName: expert.name,
+                content,
+              } satisfies ExpertMessage,
+            ],
+            ...(isStreaming
+              ? {}
+              : {
+                  generatingExperts: state.generatingExperts.filter(
+                    (id) => id !== expert.id
+                  ),
+                }),
+          };
+        }
+      }),
     setInput: (input) => set({ input }),
     setIsLoading: (isLoading) => set({ isLoading }),
     setExperts: (experts: Expert[]) => set({ experts }),
@@ -79,3 +109,10 @@ export const useChatStore = create<ChatState>((set) => ({
       })),
   },
 }));
+
+export const getLatestUserMessage = (state: ChatState) =>
+  state.messages.find((msg) => msg.role === "user")?.content;
+export const getLatestExpertMessage = (state: ChatState, expertId: number) =>
+  state.messages.find(
+    (msg) => msg.role === "assistant" && msg.expertID === expertId
+  )?.content;

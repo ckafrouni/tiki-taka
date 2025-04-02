@@ -15,15 +15,12 @@ export default function BetaPage() {
 
   const { context, task_prompt, actions } = useChatStore();
 
-  // First effect to set up the initial values
   useEffect(() => {
     actions.setContext(cognitiveDiversity[task_name]["task_placeholder"]);
     actions.setTaskPrompt(cognitiveDiversity[task_name]["task_prompt"]);
   }, [task_name, actions]);
 
-  // Second effect to set up experts AFTER task_prompt and context are set
   useEffect(() => {
-    // Only set experts if both task_prompt and context are properly initialized
     if (task_prompt && context) {
       actions.setExperts([
         {

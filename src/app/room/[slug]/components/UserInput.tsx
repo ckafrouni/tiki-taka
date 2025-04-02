@@ -30,14 +30,44 @@ export default function UserInput() {
           // Set this expert as generating
           actions.setExpertGenerating(expert.id, true);
 
-          const responseText = await getExpertOutput(messages, expert); // 0
-          console.log(
-            `Received response from expert ${expert.name} (${responseText.length} chars)`
-          );
-          actions.addExpertMessage(expert, responseText);
-
-          // Expert is no longer generating (this is also handled in addExpertMessage but adding here for clarity)
-          actions.setExpertGenerating(expert.id, false);
+          // Get the stream from getExpertOutput
+          const responseStream = await getExpertOutput(messages, expert);
+          
+          // Create a temporary variable to accumulate the full response
+          let fullResponse = "";
+          
+          // Create a reader from the stream
+          const reader = responseStream.getReader();
+          
+          try {
+            // Process the stream
+            while (true) {
+              const { done, value } = await reader.read();
+              
+              if (done) {
+                break;
+              }
+              
+              // Accumulate the response
+              fullResponse += value;
+              
+              // Update the message with the current accumulated text
+              // This creates the streaming effect in the UI
+              actions.addExpertMessage(expert, fullResponse, true);
+            }
+            
+            // Final update with complete text
+            console.log(
+              `Received complete response from expert ${expert.name} (${fullResponse.length} chars)`
+            );
+            actions.addExpertMessage(expert, fullResponse);
+          } catch (error) {
+            console.error(`Error processing stream for expert ${expert.name}:`, error);
+            actions.addExpertMessage(expert, `Error: Could not process the response for ${expert.name}.`);
+          } finally {
+            // Expert is no longer generating
+            actions.setExpertGenerating(expert.id, false);
+          }
         } catch (error) {
           console.error(`Error getting response for expert ${i}:`, error);
           actions.addExpertMessage(
