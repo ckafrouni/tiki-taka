@@ -14,9 +14,8 @@ interface ExpertResponseProps {
 }
 
 const ExpertResponse = ({ expert, latestUserMessage }: ExpertResponseProps) => {
-  const latestResponse = getLatestExpertMessage(
-    useChatStore.getState(),
-    expert.id
+  const latestResponse = useChatStore((state) => 
+    getLatestExpertMessage(state, expert.id)
   );
   const allExperts = useChatStore((state) => state.experts);
 
@@ -101,7 +100,9 @@ const ExpertResponse = ({ expert, latestUserMessage }: ExpertResponseProps) => {
 
 export function ExpertColumns() {
   const experts = useChatStore((state) => state.experts);
-  const latestUserMessage = getLatestUserMessage(useChatStore.getState());
+  const latestUserMessage = useChatStore((state) => 
+    getLatestUserMessage(state)
+  );
 
   return (
     <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 p-4 flex-1 overflow-hidden">

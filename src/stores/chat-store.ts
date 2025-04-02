@@ -72,9 +72,7 @@ export const useChatStore = create<ChatState>((set) => ({
             content,
           } satisfies ExpertMessage;
 
-          return {
-            messages: updatedMessages,
-          };
+          return { messages: updatedMessages };
         } else {
           return {
             messages: [
@@ -111,8 +109,9 @@ export const useChatStore = create<ChatState>((set) => ({
 }));
 
 export const getLatestUserMessage = (state: ChatState) =>
-  state.messages.find((msg) => msg.role === "user")?.content;
+  [...state.messages].reverse().find((msg) => msg.role === "user")?.content;
+
 export const getLatestExpertMessage = (state: ChatState, expertId: number) =>
-  state.messages.find(
-    (msg) => msg.role === "assistant" && msg.expertID === expertId
-  )?.content;
+  [...state.messages].reverse().find(
+    (msg) => msg.role === "assistant" && (msg as ExpertMessage).expertID === expertId
+  )?.content || "";

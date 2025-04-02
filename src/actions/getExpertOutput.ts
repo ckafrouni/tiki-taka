@@ -45,7 +45,7 @@ export async function getExpertOutput(
   } catch (error) {
     console.error("Error setting up Anthropic API stream:", error);
 
-    const errorStream = new ReadableStream({
+    const errorStream = new ReadableStream<string>({
       start(controller) {
         const errorMessage =
           error instanceof Error

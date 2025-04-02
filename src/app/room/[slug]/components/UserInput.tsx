@@ -19,8 +19,7 @@ export default function UserInput() {
       console.log(`Processing responses for ${experts.length} experts`);
 
       for (let i = 0; i < experts.length; i++) {
-        const { messages } = useChatStore.getState();
-
+        const messages = useChatStore.getState().messages;
         const expert = experts[i];
         console.log(
           `Processing expert ${i + 1}/${experts.length}: ${expert.name}`
@@ -30,17 +29,11 @@ export default function UserInput() {
           // Set this expert as generating
           actions.setExpertGenerating(expert.id, true);
 
-          // Get the stream from getExpertOutput
           const responseStream = await getExpertOutput(messages, expert);
-          
-          // Create a temporary variable to accumulate the full response
           let fullResponse = "";
-          
-          // Create a reader from the stream
           const reader = responseStream.getReader();
           
           try {
-            // Process the stream
             while (true) {
               const { done, value } = await reader.read();
               
@@ -48,15 +41,10 @@ export default function UserInput() {
                 break;
               }
               
-              // Accumulate the response
               fullResponse += value;
-              
-              // Update the message with the current accumulated text
-              // This creates the streaming effect in the UI
               actions.addExpertMessage(expert, fullResponse, true);
             }
             
-            // Final update with complete text
             console.log(
               `Received complete response from expert ${expert.name} (${fullResponse.length} chars)`
             );
@@ -65,7 +53,6 @@ export default function UserInput() {
             console.error(`Error processing stream for expert ${expert.name}:`, error);
             actions.addExpertMessage(expert, `Error: Could not process the response for ${expert.name}.`);
           } finally {
-            // Expert is no longer generating
             actions.setExpertGenerating(expert.id, false);
           }
         } catch (error) {
